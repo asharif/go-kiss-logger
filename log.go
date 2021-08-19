@@ -48,7 +48,7 @@ func (l *Logger) Info(msg string) {
 	}
 	t := time.Now()
 	ts := t.Format(timeStampFormat)
-	fmt.Fprintf(os.Stdout, "%s | INFO | %s | %s\n", ts, l.formatTxtColumn(l.getCallStackLine(), sourceChars), msg)
+	fmt.Fprintf(os.Stdout, "%s | INFO  | %s | %s\n", ts, l.formatTxtColumn(l.getCallStackLine(), sourceChars), msg)
 }
 
 //Warn logs at the warn level to the stdout
@@ -58,7 +58,7 @@ func (l *Logger) Warn(msg string) {
 	}
 	t := time.Now()
 	ts := t.Format(timeStampFormat)
-	fmt.Fprintf(os.Stdout, "%s | WARN | %s | %s\n", ts, l.formatTxtColumn(l.getCallStackLine(), sourceChars), msg)
+	fmt.Fprintf(os.Stdout, "%s | WARN  | %s | %s\n", ts, l.formatTxtColumn(l.getCallStackLine(), sourceChars), msg)
 }
 
 //Error logs at the error level to the stderr as well as a stack trace.
@@ -108,7 +108,8 @@ func (l *Logger) formatTxtColumn(txt string, col int) string {
 		diff := txtLen - col
 		txt = fmt.Sprintf("...%s", txt[diff:]) //prefix with dotdotdot
 	} else if txtLen < col {
-		diff := MaxInt32(col-txtLen, 3)
+
+		diff := MaxInt32(col-txtLen+3, 3)
 		for i := 0; i < diff; i++ {
 			txt = fmt.Sprintf(" %s", txt)
 		}

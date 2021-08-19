@@ -8,7 +8,7 @@ In your go.mod file add:
 
 ```
 require (
-        github.com/asharif/go-kiss-logger v1.0.8
+        github.com/asharif/go-kiss-logger v1.0.0
 )
 ```
 
@@ -31,8 +31,8 @@ logger.Fatal("This is an FATAL level log. It will exit with the provided code", 
 ```
 Output will look like:
 ```
-2020-12-02T09:05:48.789Z | INFO | ...sers/asharif/development/go-kiss-logger/main.go:10 | This is an INFO level log
-2020-12-02T09:05:48.789Z | WARN | ...sers/asharif/development/go-kiss-logger/main.go:11 | This is an WARN level log
+2020-12-02T09:05:48.789Z | INFO  | ...sers/asharif/development/go-kiss-logger/main.go:10 | This is an INFO level log
+2020-12-02T09:05:48.789Z | WARN  | ...sers/asharif/development/go-kiss-logger/main.go:11 | This is an WARN level log
 2020-12-02T09:05:48.789Z | ERROR | ...sers/asharif/development/go-kiss-logger/main.go:12 | This is an ERROR level log
 main.main()
         /Users/asharif/development/go-kiss-logger/main.go:12 +0x8f

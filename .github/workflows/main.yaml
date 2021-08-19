@@ -14,7 +14,7 @@ jobs:
         uses: mathieudutour/github-tag-action@v5
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          #default_bump: major #values major, minor, patch. default is patch
+          default_bump: major #values major, minor, patch. default is patch
       - name: Create a GitHub release
         uses: actions/create-release@v1
         env:
