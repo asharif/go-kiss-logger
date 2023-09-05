@@ -9,26 +9,26 @@ import (
 	"time"
 )
 
-//Logger helps us with logging
+// Logger helps us with logging
 type Logger struct {
 }
 
-//the number of characters that will be part of the code path
+// the number of characters that will be part of the code path
 const sourceChars = 50
 
-//the format of the timestamp within the log
+// the format of the timestamp within the log
 const timeStampFormat string = "2006-01-02T15:04:05.000Z"
 
 // The singleton instance
 var instance *Logger
 
-//To log or not to log
+// To log or not to log
 var enabled bool = true
 
 // Little magic to call a function exactly once
 var once sync.Once
 
-//GetInstance returns a threadsafe singleton of the logger
+// GetInstance returns a threadsafe singleton of the logger
 func GetInstance() *Logger {
 	once.Do(func() {
 		instance = new(Logger)
@@ -36,12 +36,22 @@ func GetInstance() *Logger {
 	return instance
 }
 
-//TurnOffLogs turns off all logging for the purpose of running tests
+// TurnOffLogs turns off all logging for the purpose of running tests
 func (l *Logger) TurnOffLogs() {
 	enabled = false
 }
 
-//Info logs at the info level to the stdout
+// Debug logs at the warn level to the stdout
+func (l *Logger) Debug(msg string) {
+	if !enabled {
+		return
+	}
+	t := time.Now()
+	ts := t.Format(timeStampFormat)
+	fmt.Fprintf(os.Stdout, "%s | DEBUG | %s | %s\n", ts, l.formatTxtColumn(l.getCallStackLine(), sourceChars), msg)
+}
+
+// Info logs at the info level to the stdout
 func (l *Logger) Info(msg string) {
 	if !enabled {
 		return
@@ -51,7 +61,7 @@ func (l *Logger) Info(msg string) {
 	fmt.Fprintf(os.Stdout, "%s | INFO  | %s | %s\n", ts, l.formatTxtColumn(l.getCallStackLine(), sourceChars), msg)
 }
 
-//Warn logs at the warn level to the stdout
+// Warn logs at the warn level to the stdout
 func (l *Logger) Warn(msg string) {
 	if !enabled {
 		return
@@ -61,7 +71,7 @@ func (l *Logger) Warn(msg string) {
 	fmt.Fprintf(os.Stdout, "%s | WARN  | %s | %s\n", ts, l.formatTxtColumn(l.getCallStackLine(), sourceChars), msg)
 }
 
-//Error logs at the error level to the stderr as well as a stack trace.
+// Error logs at the error level to the stderr as well as a stack trace.
 func (l *Logger) Error(msg string) {
 	if !enabled {
 		return
@@ -74,7 +84,7 @@ func (l *Logger) Error(msg string) {
 	fmt.Fprintf(os.Stderr, "%s | ERROR | %s | %s\n%s", ts, l.formatTxtColumn(l.getCallStackLine(), sourceChars), msg, sTrace)
 }
 
-//Fatal logs at the fatal level to the stderr as well as a stack trace along with exiting the process with the given exitCode
+// Fatal logs at the fatal level to the stderr as well as a stack trace along with exiting the process with the given exitCode
 func (l *Logger) Fatal(msg string, exitCode int) {
 	if !enabled {
 		os.Exit(exitCode)
@@ -96,7 +106,7 @@ func (l *Logger) getCallStackLine() string {
 	return line
 }
 
-//formats the text to fit in the number of col provided
+// formats the text to fit in the number of col provided
 func (l *Logger) formatTxtColumn(txt string, col int) string {
 	if txt == "" {
 		return txt
